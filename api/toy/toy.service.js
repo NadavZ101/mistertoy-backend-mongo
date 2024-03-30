@@ -8,8 +8,8 @@ import { utilService } from '../../services/util.service.js'
 async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
     // const { name, price, createdAt } = sortBy
 
-    console.log("🚀 ~ service-query ~ filterBy:", filterBy)
-    console.log("🚀 ~ service-query ~ sortBy:", sortBy)
+    // console.log("🚀 ~ service-query ~ filterBy:", filterBy)
+    // console.log("🚀 ~ service-query ~ sortBy:", sortBy)
 
     try {
         const filterCriteria = {
@@ -18,9 +18,8 @@ async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
             inStock: filterBy.inStock !== '' ? (filterBy.inStock === 'true') : { $ne: 'false' },
         }
 
-        console.log("🚀 ~ service-query inside try ~ sortBy:", sortBy)
+        // console.log("🚀 ~ service-query inside try ~ sortBy:", sortBy)
         if (sortBy) {
-            console.log('ENTERRRRRR')
             const dir = sortBy.asc ? 1 : -1;
 
         } else {
@@ -29,7 +28,6 @@ async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
 
 
         const collection = await dbService.getCollection('toy')
-        // console.log("🚀 ~ sortCriteria:", sortCriteria);
         var toys = await collection.find(filterCriteria).sort(sortBy).toArray()
         return toys
 
@@ -40,7 +38,6 @@ async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
 }
 
 async function getById(toyId) {
-    console.log("🚀 ~ getById ~ toyId:", toyId)
     try {
         const collection = await dbService.getCollection('toy')
         var toy = collection.findOne({ _id: ObjectId(toyId) })
@@ -62,6 +59,8 @@ async function remove(toyId) {
 }
 
 async function add(toy) {
+    console.log("🚀 ~ add ~ toy:", toy)
+
     try {
         const collection = await dbService.getCollection('toy')
         await collection.insertOne(toy)
@@ -73,13 +72,20 @@ async function add(toy) {
 }
 
 async function update(toy) {
+    console.log("🚀 ~ update ~ toy:", toy)
+
     try {
-        const toyToSave = {
-            vendor: toy.vendor,
-            price: toy.price
+        const toyToUpdate = {
+            name: toy.name,
+            price: toy.price,
+            inStock: toy.inStock,
+            labels: toy.labels
         }
+        console.log("🚀 ~ update ~ toyToSave:", toyToUpdate)
+
+
         const collection = await dbService.getCollection('toy')
-        await collection.updateOne({ _id: ObjectId(toy._id) }, { $set: toyToSave })
+        await collection.updateOne({ _id: ObjectId(toy._id) }, { $set: toyToUpdate })
         return toy
     } catch (err) {
         logger.error(`cannot update toy ${toyId}`, err)

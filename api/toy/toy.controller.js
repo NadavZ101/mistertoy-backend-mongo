@@ -48,11 +48,12 @@ export async function getToyById(req, res) {
 }
 
 export async function addToy(req, res) {
+    console.log("🚀 ~ addToy ~ req.query:", req.query)
     const { loggedinUser } = req
 
     try {
         const toy = req.body
-        // toy.owner = loggedinUser
+        toy.createdAt = new Date().getTime()
         const addedToy = await toyService.add(toy)
         res.json(addedToy)
     } catch (err) {
@@ -62,8 +63,12 @@ export async function addToy(req, res) {
 }
 
 export async function updateToy(req, res) {
+    console.log("🚀 ~ updateToy ~ req:", req.body)
+
     try {
         const toy = req.body
+        console.log("🚀 ~ updateToy ~ toy:", toy)
+
         const updatedToy = await toyService.update(toy)
         res.json(updatedToy)
     } catch (err) {
