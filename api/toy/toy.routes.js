@@ -10,15 +10,16 @@ export const toyRoutes = express.Router()
 
 toyRoutes.get('/', log, getToys)
 toyRoutes.get('/:id', getToyById)
-toyRoutes.post('/', addToy)
-toyRoutes.put('/:id', updateToy)
-toyRoutes.delete('/:id', removeToy)
 
-// --- AFTER AUTH ---
-// toyRoutes.post('/', requireAuth, addToy)
-// toyRoutes.put('/:id', requireAuth, updateToy)
-// toyRoutes.delete('/:id', requireAuth, removeToy)
+// --- NEED AUTH ---
+toyRoutes.post('/', requireAdmin, addToy)
+toyRoutes.put('/:id', requireAdmin, updateToy)
+toyRoutes.delete('/:id', requireAdmin, removeToy)
 // router.delete('/:id', requireAuth, requireAdmin, removeToy)
+// toyRoutes.post('/', addToy)
+// toyRoutes.put('/:id', updateToy)
+// toyRoutes.delete('/:id', removeToy)
+
 
 // --- MSG AUTH ---
 // toyRoutes.post('/:id/msg', requireAuth, addToyMsg)

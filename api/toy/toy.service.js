@@ -5,6 +5,7 @@ import { dbService } from '../../services/db.service.js'
 import { logger } from '../../services/logger.service.js'
 import { utilService } from '../../services/util.service.js'
 
+
 async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
     // const { name, price, createdAt } = sortBy
 
@@ -12,6 +13,8 @@ async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
     // console.log("🚀 ~ service-query ~ sortBy:", sortBy)
 
     try {
+
+
         const filterCriteria = {
             name: { $regex: filterBy.txt, $options: 'i' },
 
@@ -28,6 +31,7 @@ async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
 
 
         const collection = await dbService.getCollection('toy')
+
         var toys = await collection.find(filterCriteria).sort(sortBy).toArray()
         return toys
 

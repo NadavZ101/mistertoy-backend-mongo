@@ -17,10 +17,10 @@ async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
     try {
         const collection = await dbService.getCollection('user')
-        var users = await collection.find(criteria).sort({nickname: -1}).toArray()
+        var users = await collection.find(criteria).sort({ nickname: -1 }).toArray()
         users = users.map(user => {
             delete user.password
-            user.isHappy = true
+            // user.isHappy = true
             user.createdAt = ObjectId(user._id).getTimestamp()
             // Returning fake fresh data
             // user.createdAt = Date.now() - (1000 * 60 * 60 * 24 * 3) // 3 days ago
@@ -72,7 +72,7 @@ async function update(user) {
             _id: ObjectId(user._id),
             username: user.username,
             fullname: user.fullname,
-            score: user.score
+            // isAdmin: user.isAdmin
         }
         const collection = await dbService.getCollection('user')
         await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
@@ -84,6 +84,8 @@ async function update(user) {
 }
 
 async function add(user) {
+    console.log("🚀 ~ user.service --- add ~ user:", user)
+
     try {
         // Validate that there are no such user:
         const existUser = await getByUsername(user.username)
@@ -94,7 +96,7 @@ async function add(user) {
             username: user.username,
             password: user.password,
             fullname: user.fullname,
-            score: user.score || 0
+            isAdmin: user.isAdmin
         }
         const collection = await dbService.getCollection('user')
         await collection.insertOne(userToAdd)
@@ -118,8 +120,8 @@ function _buildCriteria(filterBy) {
             }
         ]
     }
-    if (filterBy.minBalance) {
-        criteria.balance = { $gte: filterBy.minBalance }
-    }
+    // if (filterBy.minBalance) {
+    //     criteria.balance = { $gte: filterBy.minBalance }
+    // }
     return criteria
 }

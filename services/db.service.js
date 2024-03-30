@@ -8,6 +8,7 @@ export const dbService = {
 
 var dbConn = null
 
+// Single DataBase
 async function getCollection(collectionName) {
     try {
         const db = await _connect()
