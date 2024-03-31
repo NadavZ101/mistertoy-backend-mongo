@@ -5,6 +5,15 @@ import { dbService } from '../../services/db.service.js'
 import { logger } from '../../services/logger.service.js'
 import { utilService } from '../../services/util.service.js'
 
+export const toyService = {
+    remove,
+    query,
+    getById,
+    add,
+    update,
+    addToyMsg,
+    removeToyMsg
+}
 
 async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
     // const { name, price, createdAt } = sortBy
@@ -102,6 +111,8 @@ async function addToyMsg(toyId, msg) {
         msg.id = utilService.makeId()
         const collection = await dbService.getCollection('toy')
         await collection.updateOne({ _id: ObjectId(toyId) }, { $push: { msgs: msg } })
+        console.log("🚀 ~ addToyMsg ~ msg:", msg)
+
         return msg
     } catch (err) {
         logger.error(`cannot add toy msg ${toyId}`, err)
@@ -120,12 +131,3 @@ async function removeToyMsg(toyId, msgId) {
     }
 }
 
-export const toyService = {
-    remove,
-    query,
-    getById,
-    add,
-    update,
-    addToyMsg,
-    removeToyMsg
-}

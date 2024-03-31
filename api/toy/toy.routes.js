@@ -11,16 +11,18 @@ export const toyRoutes = express.Router()
 toyRoutes.get('/', log, getToys)
 toyRoutes.get('/:id', getToyById)
 
-// --- NEED AUTH ---
+// --- ONLY ADMIN CAN ADD/EDIT/DELETE TOYS (AUTH) ---
 toyRoutes.post('/', requireAdmin, addToy)
 toyRoutes.put('/:id', requireAdmin, updateToy)
 toyRoutes.delete('/:id', requireAdmin, removeToy)
+
+// --- MSG AUTH ---
+toyRoutes.post('/:id/msg', requireAuth, addToyMsg)
+toyRoutes.delete('/:id/msg/:msgId', requireAuth, removeToyMsg)
+
+
+// --- EVERY USER CAN ADD/EDIT/DELETE TOYS (NO AUTH)---
 // router.delete('/:id', requireAuth, requireAdmin, removeToy)
 // toyRoutes.post('/', addToy)
 // toyRoutes.put('/:id', updateToy)
 // toyRoutes.delete('/:id', removeToy)
-
-
-// --- MSG AUTH ---
-// toyRoutes.post('/:id/msg', requireAuth, addToyMsg)
-// toyRoutes.delete('/:id/msg/:msgId', requireAuth, removeToyMsg)

@@ -89,7 +89,11 @@ export async function removeToy(req, res) {
 }
 
 export async function addToyMsg(req, res) {
+    console.log("🚀 ~ addToyMsg ~ req.params:", req.params)
+    console.log("🚀 ~ addToyMsg ~ req.body:", req.body)
     const { loggedinUser } = req
+    console.log("🚀 ~ addToyMsg ~ loggedinUser:", loggedinUser)
+
     try {
         const toyId = req.params.id
         const msg = {
@@ -97,7 +101,9 @@ export async function addToyMsg(req, res) {
             by: loggedinUser,
         }
         const savedMsg = await toyService.addToyMsg(toyId, msg)
-        res.json(savedMsg)
+        console.log("🚀 ~ addToyMsg ~ savedMsg:", savedMsg)
+
+        res.json(savedMsg) //returning the msg to frontend
     } catch (err) {
         logger.error('Failed to update toy', err)
         res.status(500).send({ err: 'Failed to update toy' })
