@@ -10,6 +10,8 @@ export async function getToys(req, res) {
         const filterCriteria = {
             txt: filterBy.txt || '',
             inStock: filterBy.inStock || '',
+            // inStock: filterBy.inStock || null,
+            // labels: filterBy.label || null,
         }
 
         // console.log("🚀 ~ sortBy.asc type:", typeof sortBy.asc, ", value:", sortBy.asc);

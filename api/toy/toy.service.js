@@ -19,10 +19,9 @@ async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
     // const { name, price, createdAt } = sortBy
 
     // console.log("🚀 ~ service-query ~ filterBy:", filterBy)
-    // console.log("🚀 ~ service-query ~ sortBy:", sortBy)
+    console.log("🚀 ~ service-query ~ sortBy:", sortBy)
 
     try {
-
 
         const filterCriteria = {
             name: { $regex: filterBy.txt, $options: 'i' },
@@ -30,7 +29,7 @@ async function query(filterBy = { txt: '', inStock: '' }, sortBy = {}) {
             inStock: filterBy.inStock !== '' ? (filterBy.inStock === 'true') : { $ne: 'false' },
         }
 
-        // console.log("🚀 ~ service-query inside try ~ sortBy:", sortBy)
+        console.log("🚀 ~ service-query inside try ~ sortBy:", sortBy)
         if (sortBy) {
             const dir = sortBy.asc ? 1 : -1;
 
